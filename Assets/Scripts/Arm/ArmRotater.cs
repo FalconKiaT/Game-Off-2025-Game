@@ -33,9 +33,9 @@ public class ArmRotater : MonoBehaviour
         hand.flipY = isLow;
         */
 
-        if (moveBicep) bicepJoint.AddForce(bicep.transform.right * 500 * shoulderForce);
-        if (moveForearm) forearmJoint.AddForce(forearm.transform.right * 500 * elbowForce);
-        if (moveHand) handJoint.AddForce(hand.transform.right * 500 * wristForce);
+        if (moveBicep) bicepJoint.AddForce(bicep.transform.up * 500 * shoulderForce);
+        if (moveForearm) forearmJoint.AddForce(forearm.transform.up * 100 * elbowForce);
+        if (moveHand) handJoint.AddForce(hand.transform.up * 100 * wristForce);
     }
 
     void OnWrist(InputValue value)
