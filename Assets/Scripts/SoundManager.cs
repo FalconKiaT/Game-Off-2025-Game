@@ -9,7 +9,7 @@ public enum SoundType { SFX, Music, All }
 public class SoundManager : MonoBehaviour
 {
 
-    [SerializeField] List<SoundObject> SFXs;
+    [SerializeField] List<SoundObject> sfxs;
     [SerializeField] List<SoundObject> music;
     Dictionary<SoundObject, AudioSource> currentlyPlaying;
     string currentName;
@@ -17,6 +17,21 @@ public class SoundManager : MonoBehaviour
     public float sfxVolume {  get; private set; }
     public float musicVolume { get; private set; }
     public float totalVolume { get; private set; }
+
+    public SoundManager Instance { get; private set; }
+
+    private void Awake()
+    {
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
 
     private void Update()
@@ -37,7 +52,7 @@ public class SoundManager : MonoBehaviour
     {
         SoundObject currentSound = type switch
         {
-            SoundType.SFX => SFXs.Find(FindName),
+            SoundType.SFX => sfxs.Find(FindName),
             SoundType.Music => music.Find(FindName),
             SoundType.All => FindSound(name),
             _ => new SoundObject()
@@ -67,7 +82,7 @@ public class SoundManager : MonoBehaviour
     {
         SoundObject currentSound = type switch
         {
-            SoundType.SFX => SFXs.Find(FindName),
+            SoundType.SFX => sfxs.Find(FindName),
             SoundType.Music => music.Find(FindName),
             SoundType.All => FindSound(name),
             _ => new SoundObject()
@@ -75,19 +90,35 @@ public class SoundManager : MonoBehaviour
 
         if (currentlyPlaying.ContainsKey(currentSound))
         {
-            currentlyPlaying[currentSound].Pause();
+            if (currentSound.loop) currentlyPlaying[currentSound].Play();
+            else currentlyPlaying[currentSound].Pause();
             return true;
         }
         else return false;
     }
 
-    public void ChangeVolume(SoundType type, float newAmount)
+    public void ChangeSFXVolume(float newVolume)
+    {
+        ChangeVolume(SoundType.SFX, newVolume);
+    }
+
+    public void ChangeMusicVolume(float newVolume)
+    {
+        ChangeVolume(SoundType.Music, newVolume);
+    }
+
+    public void ChangeTotalVolume(float newVolume)
+    {
+        ChangeVolume(SoundType.All, newVolume);
+    }
+
+    private void ChangeVolume(SoundType type, float newAmount)
     {
         switch (type)
         {
             case SoundType.All:
                 totalVolume = newAmount;
-                foreach (SoundObject sound in SFXs)
+                foreach (SoundObject sound in sfxs)
                 {
                     sound.SetVolume(sfxVolume/2 + totalVolume/2);
                     if (currentlyPlaying.ContainsKey(sound)) currentlyPlaying[sound].volume = sound.GetVolume();
@@ -100,7 +131,7 @@ public class SoundManager : MonoBehaviour
                 break;
             case SoundType.SFX:
                 sfxVolume = newAmount;
-                foreach (SoundObject sound in SFXs)
+                foreach (SoundObject sound in sfxs)
                 {
                     sound.SetVolume(sfxVolume/2 + totalVolume/2);
                     if (currentlyPlaying.ContainsKey(sound)) currentlyPlaying[sound].volume = sound.GetVolume();
@@ -131,7 +162,7 @@ public class SoundManager : MonoBehaviour
 
     private SoundObject FindSound(string name)
     {
-        SoundObject soundObject = SFXs.Find(FindName);
+        SoundObject soundObject = sfxs.Find(FindName);
 
         if (soundObject.IsUnityNull()) soundObject = music.Find(FindName);
 
@@ -144,6 +175,7 @@ struct SoundObject
 {
     public string name;
     public AudioClip clip;
+    public bool loop { get; private set; }
     [SerializeField] float volume;
     [SerializeField] float pitch;
 
