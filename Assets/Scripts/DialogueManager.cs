@@ -1,6 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(AudioSource))]
 public class DialogueManager : MonoBehaviour
 {
     [Header("Scene")]
@@ -11,6 +13,9 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private float fontSize = 25f; // 25 = 0.25 scale
     [SerializeField] private float spacing = 19f; // width each character should be placed apart
     [SerializeField] private float maxLineWidth = 220f; // max horizontal width of the line
+    [Space]
+    [SerializeField] private AudioClip dialogueSound;
+    [SerializeField] private float timeBetweenCharacters = 0.2f;
     
     [Space]
     [TextArea]
@@ -20,7 +25,7 @@ public class DialogueManager : MonoBehaviour
     private Sprite[] _spriteSheet;
     private GameObject _letterPrefab;
     
-    // private Dictionary<char, Sprite> map;
+    private AudioSource _source;
     private Vector2 _currentPosition;
     private int _charInLine = 0;
 
@@ -29,18 +34,24 @@ public class DialogueManager : MonoBehaviour
         // Load resources
         _spriteSheet = Resources.LoadAll<Sprite>("Dialogue/letters");
         _letterPrefab = Resources.Load<GameObject>("Dialogue/letter_pfb");
-        
+        _source = GetComponent<AudioSource>();
+
+        StartCoroutine(WriteText(dialogueMessage));
+    }
+
+    private IEnumerator WriteText(string text)
+    {
         _currentPosition = startPosition;
 
         // Write message to textbox
-        for (int i = 0; i < dialogueMessage.Length; i++)
+        for (int i = 0; i < text.Length; i++)
         {
-            char currentChar = dialogueMessage[i];
+            char currentChar = text[i];
             
             // Check ahead for word wrapping
             if (currentChar != ' ' && currentChar != '\n')
             {
-                int wordLength = GetWordLength(dialogueMessage, i);
+                int wordLength = GetWordLength(text, i);
                 float projectedWidth = (wordLength * spacing);
 
                 bool exceedsLine = (_currentPosition.x - startPosition.x) + projectedWidth > maxLineWidth;
@@ -56,21 +67,27 @@ public class DialogueManager : MonoBehaviour
                 
             // set sprite to letter
             Image letterImage = letter.GetComponent<Image>();
-            int index = GetIndex(dialogueMessage[i]);
+            int index = GetIndex(text[i]);
             letterImage.sprite = _spriteSheet[index];
             letter.name = "letter_" + index;
+            
+            // play sound
+            PlaySpeechSound();
             
             // Adjust position of next letter
             if (currentChar == ' ')
                 _currentPosition.x += spacing * 0.6f;
-            else if(dialogueMessage[i] == 'l' || (i+1 != dialogueMessage.Length && dialogueMessage[i+1] == 'l') 
-                 || dialogueMessage[i] == '!' || (i+1 != dialogueMessage.Length && dialogueMessage[i+1] == '!'))
+            else if(text[i] == 'l' || (i+1 != text.Length && text[i+1] == 'l') 
+                                   || text[i] == '!' || (i+1 != text.Length && text[i+1] == '!'))
                 _currentPosition.x += spacing * 0.7f;
             else
                 _currentPosition.x += spacing;
 
             _charInLine++;
+            yield return new WaitForSeconds(timeBetweenCharacters);
         }
+
+        yield break;
     }
     
     // Returns how many characters until space/punctuation
@@ -117,5 +134,14 @@ public class DialogueManager : MonoBehaviour
         }
 
         return -1;
+    }
+    
+    // play a short soundbyte at random pitch
+    private void PlaySpeechSound()
+    {
+        _source.Stop();
+        _source.pitch = Random.Range(0.9f, 1.1f);
+        _source.clip = dialogueSound;
+        _source.Play();
     }
 }
