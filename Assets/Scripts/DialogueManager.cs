@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +23,8 @@ public class DialogueManager : MonoBehaviour
     public string dialogueMessage = "text";
     
     // Resources
-    private Sprite[] _spriteSheet;
+    private List<Sprite> _spriteSheet;
+    private Sprite _v;
     private GameObject _letterPrefab;
     
     private AudioSource _source;
@@ -32,10 +34,15 @@ public class DialogueManager : MonoBehaviour
     private void Start()
     {
         // Load resources
-        _spriteSheet = Resources.LoadAll<Sprite>("Dialogue/letters");
+        Sprite[] spriteArray = Resources.LoadAll<Sprite>("Dialogue/letters");
+        _spriteSheet = new List<Sprite>(spriteArray);
         _letterPrefab = Resources.Load<GameObject>("Dialogue/letter_pfb");
         _source = GetComponent<AudioSource>();
 
+        // insert v into sprite array
+        _v = Resources.Load<Sprite>("Dialogue/v");
+        _spriteSheet.Insert(21, _v);
+        
         StartCoroutine(WriteText(dialogueMessage));
     }
 
@@ -126,11 +133,11 @@ public class DialogueManager : MonoBehaviour
         
         switch (c)
         {
-            case ',': return 25;
-            case '.': return 26;
-            case '!': return 27;
-            case '?': return 28;
-            case ' ': return 29;
+            case ',': return 26;
+            case '.': return 27;
+            case '!': return 28;
+            case '?': return 29;
+            case ' ': return 30;
         }
 
         return -1;
