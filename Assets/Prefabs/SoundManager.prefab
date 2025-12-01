@@ -69,6 +69,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 5c5b1ddb787e2834393f36f72af324bd, type: 3}
     volume: 1
     pitch: 0
+  - name: Spotlight
+    clip: {fileID: 8300000, guid: ca8ce657f89316342b9038a7cc944bd1, type: 3}
+    volume: 1
+    pitch: 0
   music:
   - name: Warm Welcome
     clip: {fileID: 8300000, guid: ca508da219255db489270735e4346a41, type: 3}

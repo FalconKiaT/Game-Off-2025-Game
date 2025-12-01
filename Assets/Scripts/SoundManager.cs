@@ -18,7 +18,7 @@ public class SoundManager : MonoBehaviour
     public float musicVolume { get; private set; }
     public float totalVolume { get; private set; }
 
-    public SoundManager Instance { get; private set; }
+    public static SoundManager Instance { get; private set; }
 
     private void Awake()
     {
@@ -31,6 +31,7 @@ public class SoundManager : MonoBehaviour
         {
             Instance = this;
         }
+        currentlyPlaying = new Dictionary<SoundObject, AudioSource>();
     }
 
 
