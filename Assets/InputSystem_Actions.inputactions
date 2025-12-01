@@ -88,7 +88,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Wrist",
+                    "name": "Wrist[Legacy]",
                     "type": "Value",
                     "id": "34913a2f-524f-4773-ad30-f11534bfb0c8",
                     "expectedControlType": "Axis",
@@ -97,7 +97,25 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Elbow",
+                    "name": "ShoulderLeft",
+                    "type": "Value",
+                    "id": "24d77ef5-11e8-43ca-a3e3-7f975fc2eeef",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ShoulderRight",
+                    "type": "Value",
+                    "id": "b3273fd9-75a3-4e57-94bc-3a6c0ef98320",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ElbowLeft",
                     "type": "Value",
                     "id": "6ae0e610-e470-44ec-966c-9bf72c6df2be",
                     "expectedControlType": "Axis",
@@ -106,12 +124,12 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Shoulder",
+                    "name": "ElbowRight",
                     "type": "Value",
-                    "id": "24d77ef5-11e8-43ca-a3e3-7f975fc2eeef",
+                    "id": "592285f5-44be-40d8-859c-587509677130",
                     "expectedControlType": "Axis",
                     "processors": "",
-                    "interactions": "Press",
+                    "interactions": "",
                     "initialStateCheck": true
                 }
             ],
@@ -508,29 +526,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Wrist",
+                    "action": "Wrist[Legacy]",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "negative",
                     "id": "dbd4a91b-b405-4a4d-a9fe-8ab476fbe704",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Wrist",
+                    "action": "Wrist[Legacy]",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "positive",
                     "id": "4bf655e2-87a1-432b-aede-151a4581cccd",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Wrist",
+                    "action": "Wrist[Legacy]",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -541,29 +559,62 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Shoulder",
+                    "action": "ShoulderLeft",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "negative",
                     "id": "206bbf61-a223-469e-b670-4da1a2579be1",
-                    "path": "<Keyboard>/z",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Shoulder",
+                    "action": "ShoulderLeft",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "positive",
                     "id": "f84ff343-8f24-4733-b370-b72375cffe55",
-                    "path": "<Keyboard>/c",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Shoulder",
+                    "action": "ShoulderLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "a013ab36-0185-4a73-ba3e-7fdeff7a8628",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShoulderRight",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "01433822-6714-42dd-ae04-cc0649e07f0f",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShoulderRight",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "95a9c88a-6dd2-43a9-84c0-2b5fc3f4cc64",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShoulderRight",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -574,29 +625,62 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Elbow",
+                    "action": "ElbowLeft",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "negative",
                     "id": "fa3c11ca-3316-4574-a021-c78436ca1f56",
-                    "path": "<Keyboard>/a",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Elbow",
+                    "action": "ElbowLeft",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "positive",
                     "id": "8925a1ba-f4b3-4f85-b8a1-180ba35241b8",
-                    "path": "<Keyboard>/d",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Elbow",
+                    "action": "ElbowLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "602ab6bb-9a60-46bf-9482-e61708a81f44",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ElbowRight",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "4bb86838-13c9-40bf-8f56-1ef13eb89155",
+                    "path": "<Keyboard>/semicolon",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ElbowRight",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "61b346c6-04bf-44ff-9f67-d0a3a8f122d7",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ElbowRight",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
