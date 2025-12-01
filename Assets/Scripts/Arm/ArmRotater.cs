@@ -5,6 +5,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class ArmRotater : MonoBehaviour
 {
+    // left arm
     [SerializeField] SpriteRenderer bicepLeft;
     ArticulationBody bicepLeftJoint;
     [SerializeField] SpriteRenderer forearmLeft;
@@ -17,6 +18,8 @@ public class ArmRotater : MonoBehaviour
     float elbowForceLeft;
     bool moveBicepLeft;
     float shoulderForceLeft;
+
+    
 
     // right arm
     [SerializeField] SpriteRenderer bicepRight;
@@ -31,6 +34,8 @@ public class ArmRotater : MonoBehaviour
     float elbowForceRight;
     bool moveBicepRight;
     float shoulderForceRight;
+    
+    bool armsFrozen;
 
     void Start()
     {
@@ -57,7 +62,6 @@ public class ArmRotater : MonoBehaviour
         forearm2.flipY = isLow;
         hand2.flipY = isLow;
         */
-
         if (moveBicepLeft && bicepLeftJoint != null)
             bicepLeftJoint.AddForce(bicepLeft.transform.up * 500 * shoulderForceLeft);
         if (moveForearmLeft && forearmLeftJoint != null)
@@ -106,5 +110,36 @@ public class ArmRotater : MonoBehaviour
     {
         moveBicepRight = !moveBicepRight;
         shoulderForceRight = value.Get<float>();
+    }
+    
+    public void OnStop(InputValue value)
+    {
+        if (value != null && value.isPressed) ToggleArmsFrozen();
+    }
+    
+    public void ToggleArmsFrozen()
+    {
+        armsFrozen = !armsFrozen;
+
+        if (armsFrozen)
+        {
+            if (bicepLeftJoint != null) bicepLeftJoint.Sleep();
+            if (forearmLeftJoint != null) forearmLeftJoint.Sleep();
+            if (handLeftJoint != null) handLeftJoint.Sleep();
+
+            if (bicepRightJoint != null) bicepRightJoint.Sleep();
+            if (forearmRightJoint != null) forearmRightJoint.Sleep();
+            if (handRightJoint != null) handRightJoint.Sleep();
+        }
+        else
+        {
+            if (bicepLeftJoint != null) bicepLeftJoint.WakeUp();
+            if (forearmLeftJoint != null) forearmLeftJoint.WakeUp();
+            if (handLeftJoint != null) handLeftJoint.WakeUp();
+
+            if (bicepRightJoint != null) bicepRightJoint.WakeUp();
+            if (forearmRightJoint != null) forearmRightJoint.WakeUp();
+            if (handRightJoint != null) handRightJoint.WakeUp();
+        }
     }
 }
