@@ -25,15 +25,17 @@ public class ArmRotater : MonoBehaviour
 
     void Update()
     {
-        bool isLow = forearm.transform.localRotation.z <= 0.0f;
+        /*
+        bool isLow = forearm.transform.localRotation.z >= 0.0f;
 
-        bicep.flipX = isLow;
-        forearm.flipX = isLow;
-        hand.flipX = isLow;
+        bicep.flipY = isLow;
+        forearm.flipY = isLow;
+        hand.flipY = isLow;
+        */
 
-        if (moveBicep) bicepJoint.AddForce(bicep.transform.right * 100 * shoulderForce);
-        if (moveForearm) forearmJoint.AddForce(forearm.transform.right * 100 * elbowForce);
-        if (moveHand) handJoint.AddForce(hand.transform.right * 100 * wristForce);
+        if (moveBicep) bicepJoint.AddForce(bicep.transform.up * 500 * shoulderForce);
+        if (moveForearm) forearmJoint.AddForce(forearm.transform.up * 100 * elbowForce);
+        if (moveHand) handJoint.AddForce(hand.transform.up * 100 * wristForce);
     }
 
     void OnWrist(InputValue value)
