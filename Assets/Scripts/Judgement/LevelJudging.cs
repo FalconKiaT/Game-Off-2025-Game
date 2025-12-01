@@ -24,15 +24,15 @@ public class LevelJudging : MonoBehaviour
 
     private Sprite GetSpriteForGrade(string grade)
     {
-        // Worst → Best : meh, cool, epic, groovy
+        // Worst -> Best : meh, cool, epic, groovy
 
-        if (grade == "A+" || grade == "A" || grade == "A-")
+        if (grade is "A+" or "A" or "A-")
             return groovySprite;      // best
 
-        if (grade == "B+" || grade == "B" || grade == "B-")
+        if (grade is "B+" or "B" or "B-")
             return epicSprite;
 
-        if (grade == "C+" || grade == "C")
+        if (grade is "C+" or "C")
             return coolSprite;
 
         return mehSprite;             // D / F / anything else

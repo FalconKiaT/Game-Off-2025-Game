@@ -16,7 +16,7 @@ public class JudgementSystem : MonoBehaviour
     // Distance threshold where position counts as perfect
 
     [SerializeField] private float maxFailDistance = 2f; 
-    // When distance is >= this → zero score for that segment
+    // When distance is >= this -> zero score for that segment
 
     /// <summary>
     /// Calculates a judgment grade based on how closely
