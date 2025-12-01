@@ -42,8 +42,16 @@ public class DialogueManager : MonoBehaviour
         // insert v into sprite array
         _v = Resources.Load<Sprite>("Dialogue/v");
         _spriteSheet.Insert(21, _v);
-        
+    }
+
+    public void StartDialogue()
+    {
         StartCoroutine(WriteText(dialogueMessage));
+    }
+    
+    public void StartDialogue(string message)
+    {
+        StartCoroutine(WriteText(message));
     }
 
     private IEnumerator WriteText(string text)
