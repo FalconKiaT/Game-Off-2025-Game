@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: e932926d0719fe5459c436766485c1f9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - judgementSystem: {instanceID: 0}
+  - faceRenderer: {instanceID: 0}
+  - mehSprite: {fileID: 21300000, guid: 36f1d68b53001fe4cbf1ba19a6421f3f, type: 3}
+  - coolSprite: {fileID: 21300000, guid: da49a7c2bf12d824ba07d2a3d42fd985, type: 3}
+  - epicSprite: {fileID: 21300000, guid: f5c82402421eab84d9569bf90c358b6b, type: 3}
+  - groovySprite: {fileID: 21300000, guid: b0fc4d7a06587f243aed0cad71036515, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
