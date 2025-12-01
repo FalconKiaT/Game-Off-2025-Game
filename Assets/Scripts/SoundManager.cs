@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public enum SoundType { SFX, Music, Master }
+public enum SoundType { SFX, Music, All }
 
 public class SoundManager : MonoBehaviour
 {
@@ -22,15 +22,16 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
-        // Make Singleton
+
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
-            return;
+            Destroy(this);
         }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        else
+        {
+            Instance = this;
+        }
+        currentlyPlaying = new Dictionary<SoundObject, AudioSource>();
     }
 
 
@@ -54,7 +55,7 @@ public class SoundManager : MonoBehaviour
         {
             SoundType.SFX => sfxs.Find(FindName),
             SoundType.Music => music.Find(FindName),
-            SoundType.Master => FindSound(name),
+            SoundType.All => FindSound(name),
             _ => new SoundObject()
         };
 
@@ -84,7 +85,7 @@ public class SoundManager : MonoBehaviour
         {
             SoundType.SFX => sfxs.Find(FindName),
             SoundType.Music => music.Find(FindName),
-            SoundType.Master => FindSound(name),
+            SoundType.All => FindSound(name),
             _ => new SoundObject()
         };
 
@@ -109,14 +110,14 @@ public class SoundManager : MonoBehaviour
 
     public void ChangeTotalVolume(float newVolume)
     {
-        ChangeVolume(SoundType.Master, newVolume);
+        ChangeVolume(SoundType.All, newVolume);
     }
 
     private void ChangeVolume(SoundType type, float newAmount)
     {
         switch (type)
         {
-            case SoundType.Master:
+            case SoundType.All:
                 totalVolume = newAmount;
                 foreach (SoundObject sound in sfxs)
                 {
