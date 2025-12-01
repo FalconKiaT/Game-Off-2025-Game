@@ -2,37 +2,64 @@ using UnityEngine;
 
 public class JudgementSystem : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] SpriteRenderer characterBicep;
-    [SerializeField] SpriteRenderer characterForearm;
-    [SerializeField] SpriteRenderer characterHand;
-    
-    [SerializeField] SpriteRenderer targetBicep;
-    [SerializeField] SpriteRenderer targetForearm;
-    [SerializeField] SpriteRenderer targetHand;
-    
-    [Header("Settings")]
-    [SerializeField] private float tolerance = 0.25f; 
-    // Distance threshold where position counts as perfect
+    [Header("References - Right / Primary Arm")]
+    [SerializeField] SpriteRenderer characterBicepA;
+    [SerializeField] SpriteRenderer characterForearmA;
+    [SerializeField] SpriteRenderer characterHandA;
 
-    [SerializeField] private float maxFailDistance = 2f; 
-    // When distance is >= this -> zero score for that segment
+    [SerializeField] SpriteRenderer targetBicepA;
+    [SerializeField] SpriteRenderer targetForearmA;
+    [SerializeField] SpriteRenderer targetHandA;
+
+    [Header("References - Left / Secondary Arm ")]
+    [SerializeField] SpriteRenderer characterBicepB;
+    [SerializeField] SpriteRenderer characterForearmB;
+    [SerializeField] SpriteRenderer characterHandB;
+
+    [SerializeField] SpriteRenderer targetBicepB;
+    [SerializeField] SpriteRenderer targetForearmB;
+    [SerializeField] SpriteRenderer targetHandB;
+
+    [Header("Settings")]
+    [SerializeField] private float tolerance = 0.25f;
+    [SerializeField] private float maxFailDistance = 2f;
+
+    [Header("Mode")]
+    [SerializeField] private bool useTwoArms = false; 
+
+
+    public void ToggleTwoArms()
+    {
+        useTwoArms = !useTwoArms;
+    }
 
     /// <summary>
     /// Calculates a judgment grade based on how closely
     /// the player's arm positions match the target.
+    /// Supports one or two arms depending on useTwoArms.
     /// </summary>
     public string GetJudgement()
     {
         float totalScore = 0f;
+        int segmentCount = 0;
 
-        // Score each body part independently
-        totalScore += ScorePart(characterBicep.transform.position, targetBicep.transform.position);
-        totalScore += ScorePart(characterForearm.transform.position, targetForearm.transform.position);
-        totalScore += ScorePart(characterHand.transform.position, targetHand.transform.position);
+        // Right / primary arm
+        totalScore += ScorePart(characterBicepA.transform.position, targetBicepA.transform.position);
+        totalScore += ScorePart(characterForearmA.transform.position, targetForearmA.transform.position);
+        totalScore += ScorePart(characterHandA.transform.position, targetHandA.transform.position);
+        segmentCount += 3;
 
-        // Average score for final pose score (0–1 range)
-        float averageScore = totalScore / 3f;
+        // Left / secondary arm (only if enabled)
+        if (useTwoArms)
+        {
+            totalScore += ScorePart(characterBicepB.transform.position, targetBicepB.transform.position);
+            totalScore += ScorePart(characterForearmB.transform.position, targetForearmB.transform.position);
+            totalScore += ScorePart(characterHandB.transform.position, targetHandB.transform.position);
+            segmentCount += 3;
+        }
+
+        // Average score across active segments (0–1 range)
+        float averageScore = (segmentCount > 0) ? (totalScore / segmentCount) : 0f;
 
         // Convert to percentage 0–100
         float percentage = Mathf.Clamp01(averageScore) * 100f;
@@ -48,19 +75,15 @@ public class JudgementSystem : MonoBehaviour
     {
         float dist = Vector2.Distance(playerPos, targetPos);
 
-        // Inside tolerance → full score
         if (dist <= tolerance)
             return 1f;
 
-        // Score falls off as distance increases
         float normalized = 1f - ((dist - tolerance) / (maxFailDistance - tolerance));
-
-        // Clamp between 0 and 1
         return Mathf.Clamp01(normalized);
     }
 
     /// <summary>
-    /// Converts a score percentage into a letter grade using your scale.
+    /// Converts a score percentage into a letter grade.
     /// </summary>
     private string Grade(float score)
     {
